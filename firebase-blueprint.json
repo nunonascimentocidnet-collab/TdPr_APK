@@ -1,0 +1,80 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "theme": { "type": "string", "enum": ["dark", "light", "blue", "green", "red"] },
+        "language": { "type": "string", "enum": ["pt", "en"] },
+        "sound": { "type": "boolean" },
+        "vibration": { "type": "boolean" },
+        "distanceUnit": { "type": "string", "enum": ["m", "yd"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Training": {
+      "title": "Training",
+      "description": "Shot training session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "totalScore": { "type": "number" },
+        "averageScore": { "type": "number" },
+        "weaponType": { "type": "string", "enum": ["Pistola", "Carabina"] },
+        "caliber": { "type": "string" },
+        "distance": { "type": "string" },
+        "targetType": { "type": "string" },
+        "series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "shots": { "type": "array", "items": { "type": "number" } },
+              "score": { "type": "number" },
+              "average": { "type": "number" }
+            }
+          }
+        },
+        "targetPoints": { "type": "number" },
+        "notes": { "type": "string" }
+      },
+      "required": ["userId", "date", "series"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "Personal shooting goals",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "targetScore": { "type": "number" },
+        "type": { "type": "string" },
+        "progress": { "type": "number" },
+        "deadline": { "type": "string", "format": "date-time" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "targetScore"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profile and settings"
+    },
+    "trainings/{trainingId}": {
+      "schema": "Training",
+      "description": "Training session records"
+    },
+    "goals/{goalId}": {
+      "schema": "Goal",
+      "description": "User personal goals"
+    }
+  }
+}
